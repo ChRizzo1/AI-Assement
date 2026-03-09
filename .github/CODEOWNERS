@@ -1,0 +1,10 @@
+# CODEOWNERS
+# This file defines code owners who are automatically requested for review
+# when a pull request modifies files they own.
+# See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+#
+# Note: To enable GitHub Copilot as an automatic reviewer, configure a repository
+# ruleset via Settings → Rules → Rulesets and enable
+# "Automatically request Copilot code review".
+
+* @ChRizzo1
