@@ -1,0 +1,6 @@
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;max-width:900px;margin:32px auto;padding:0 16px;color:#111}
+main{display:flex;flex-direction:column;gap:16px}
+form{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+label{display:flex;flex-direction:column;font-size:14px}
+button{padding:8px 12px;border-radius:6px;border:1px solid #ccc;background:#007acc;color:#fff}
+#result{margin-top:12px;padding:12px;border-radius:6px;border:1px dashed #ccc}
