@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assessment Form</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main>
+        <h1>AI Assessment Form</h1>
+        <form id="ai-assessment-form">
+            <label for="company-name">Company Name:
+                <input type="text" id="company-name" name="company_name" required>
+            </label>
+
+            <label for="email">Email:
+                <input type="email" id="email" name="email" required>
+            </label>
+
+            <label for="company-size">Company Size:
+                <select id="company-size" name="company_size" required>
+                    <option value="1-10">1-10</option>
+                    <option value="11-50">11-50</option>
+                    <option value="51-200">51-200</option>
+                    <option value="201-500">201-500</option>
+                    <option value="500+">500+</option>
+                </select>
+            </label>
+
+            <label for="industry">Industry:
+                <input type="text" id="industry" name="industry">
+            </label>
+
+            <label for="ai-challenge">Biggest AI Challenge:
+                <textarea id="ai-challenge" name="ai_challenge" rows="4"></textarea>
+            </label>
+
+            <label for="ai-maturity">AI Maturity Level:
+                <select id="ai-maturity" name="ai_maturity" required>
+                    <option value="none">None</option>
+                    <option value="exploring">Exploring</option>
+                    <option value="piloting">Piloting</option>
+                    <option value="scaling">Scaling</option>
+                    <option value="advanced">Advanced</option>
+                </select>
+            </label>
+
+            <button type="submit">Submit Assessment</button>
+        </form>
+
+        <section id="result"></section>
+    </main>
+
+    <script>
+        const form = document.getElementById('ai-assessment-form');
+        const result = document.getElementById('result');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const payload = Object.fromEntries(formData.entries());
+
+            result.textContent = 'Submitting your assessment...';
+
+            try {
+                const response = await fetch('http://localhost:8000/assess', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    result.innerHTML = `<strong>Score:</strong> ${data.score}<br><strong>Recommendation:</strong> ${data.notes}`;
+                } else {
+                    result.textContent = 'Failed to submit assessment. Please try again.';
+                }
+            } catch (error) {
+                result.textContent = 'Error connecting to the server. Please try again later.';
+            }
+        });
+    </script>
+</body>
+</html>
