@@ -18,15 +18,33 @@ class AssessmentResponse(BaseModel):
 
 @app.post('/assess', response_model=AssessmentResponse)
 def assess(req: AssessmentRequest):
-    # Placeholder scoring logic — replace with rules from the requirements doc
-    score = 50
-    score += (req.data_readiness - 3) * 10
+    score = 0
+    notes = []
+
+    # Organization size impact
+    if req.size == 'small':
+        score += 10
+        notes.append("Small organizations may face fewer bureaucratic hurdles.")
+    elif req.size == 'medium':
+        score += 20
+        notes.append("Medium organizations have balanced resources and agility.")
+    elif req.size == 'large':
+        score += 30
+        notes.append("Large organizations have significant resources but may face slower decision-making.")
+
+    # Data readiness impact
+    score += req.data_readiness * 10
+    notes.append(f"Data readiness level {req.data_readiness} contributes positively to the score.")
+
+    # Governance processes impact
     if req.governance == 'yes':
-        score += 15
-    if req.size == 'large':
-        score += 5
+        score += 25
+        notes.append("Strong governance processes are in place, ensuring ethical AI adoption.")
+    else:
+        notes.append("Lack of governance processes may pose risks to ethical AI adoption.")
 
+    # Final adjustments
     score = max(0, min(100, score))
+    notes.append("Final score adjusted to fit within the range of 0 to 100.")
 
-    notes = 'Placeholder assessment. Integrate the full rubric from the requirements PDF.'
-    return AssessmentResponse(score=score, notes=notes)
+    return AssessmentResponse(score=score, notes=" ".join(notes))
